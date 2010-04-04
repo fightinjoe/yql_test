@@ -17,7 +17,8 @@ var YQL = {
       'env='      + escape(YQL._env),
       'callback=' + escape('YQL.callbacks['+callbackID+']'),
       'q='        + escape(yql_query),
-      'rand='     + Math.random()
+      'rand='     + Math.random(),
+      'debug='    + 'true'
     ].join('&');
 
     var url = YQL._host + YQL._path + '?' + params;

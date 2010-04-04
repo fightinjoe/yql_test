@@ -155,19 +155,17 @@ var YQLTests = {
     }
 
     var _runTests = function() {
-      var out = true;
-      for(var title in self.vars.should) { out && _runTest(title, self.vars.should[title]) }
-      return out;
+      for(var title in self.vars.should) {
+        try {
+          _runTest(title, self.vars.should[title]);
+        } catch(err) {
+          runner.printError( self.vars.name, title, self.vars.should[title], err, data );
+        }
+      }
     }
 
     var _runTest = function( title, should ) {
-      var out;
-      try {
-        out = eval(self.vars.should[title]);
-      } catch(err) {
-        console.log(err);
-        runner.printError( self.vars.name, title, self.vars.should[title], err, data );
-      }
+      var out = eval(self.vars.should[title]);
       out ? runner.printPass( self.vars.name, title, self.vars.should[title], out ) :
             runner.printFail( self.vars.name, title, self.vars.should[title], out, data );
       return out;

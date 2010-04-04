@@ -151,12 +151,13 @@ ul {
 /*== Test ==*/
 
 div.tests {
-  position:relative;
+  padding-bottom:1em;
 }
 
 .tests.pass {
   overflow:auto;
   padding-bottom:3em;
+  position:relative;
 }
 
 .tests.pass .test {
@@ -201,13 +202,15 @@ div.tests {
 
 /*== Errors ==*/
 
-.tests .error {
+.tests .error,
+.tests li.fail {
   border-top:1px solid Red;
   padding-left:40px;
   margin-top:1em;
 }
 
-.tests.fail .error .icon {
+.tests.fail .error .icon,
+.tests.fail .fail .icon {
   background: Red; color:White;
   display:block;
   width:30px;
@@ -215,4 +218,10 @@ div.tests {
   text-align:center;
   float:left;
   margin-left:-40px;
+}
+
+.tests.fail .fail .icon {
+  background:White; color:Red;
+  border:1px solid Red;
+  border-top:none;
 }

@@ -53,8 +53,8 @@
             should: {
               'pass for simple lookup'            : 'data.out.first_set.elt',
               'fail for missing simple lookup'    : '!data.out.first_set.foo',
-              'pass for simple computation'       : 'data.out.first_set.elt.length == 3")',
-              'fail for wrong simple computation' : 'data.out.first_set.elt.length == 4")'
+              'pass for simple computation'       : 'data.out.first_set.elt.length == 3',
+              'fail for wrong simple computation' : '!(data.out.first_set.elt.length == 4)'
             }
           },
           {
