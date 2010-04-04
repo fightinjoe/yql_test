@@ -139,7 +139,7 @@ ul {
 #yqlTables {
   float:left;
   border-right:1px solid silver;
-  margin: 0 1em 1em 0;
+  margin-bottom: 1em;
 }
 
 #yqlTables ul {
@@ -151,7 +151,11 @@ ul {
 /*== Test ==*/
 
 div.tests {
-  padding-bottom:1em;
+  padding:0 0 1em 1em;
+  margin-left:300px;
+  border-left:1px solid silver;
+  position:relative;
+  left:-1px;
 }
 
 .tests.pass {
@@ -177,9 +181,8 @@ div.tests {
   display:none;
 }
 
-li.test:hover {
-  background:Pink;
-}
+li.test:hover { background:Pink; }
+li.test.pass:hover { background:#CBF799; }
 
 .tests.pass li.test:hover .title {
   display:block;

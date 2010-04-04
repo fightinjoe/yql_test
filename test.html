@@ -52,7 +52,7 @@
         link.click(function(){
           var table = $(this).attr('tableName');
           YQLTests.runTestsForTable(table);
-          uri.anchor = uri.anchor.split(','); uri.anchor.push(table); uri.anchor = uri.anchor.join(',');
+          uri.anchor = uri.anchor ? uri.anchor+','+table : table;
           document.location.href = uri.to_s();
           return false;
         });
@@ -65,10 +65,11 @@
   jQuery(document).ready(function(){
     // load the tables if there is an ?env present
     uri = new URI(document.location.href); uri.params = uri.queryParams();
+    YQL._host = uri.params.host || YQL._host;
+    YQL._env  = uri.params.env || 'http://fightinjoe.com/yql_test/tables.env';
+    jQuery('#env').val( YQL._env ); jQuery('#host').val( YQL._host );
+
     if(uri.params.env) {
-      YQL._host = uri.params.host || YQL._host;
-      YQL._env  = uri.params.env;
-      jQuery('#env').val( YQL._env ); jQuery('#host').val( YQL._host );
       getTables();
 
       if(uri.anchor) {
