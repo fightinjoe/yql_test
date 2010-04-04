@@ -15,13 +15,19 @@
     <div id="body" style="overflow:auto;">
       <div id="top">
         <form method="GET">
+          <input type="text" value="" name="host" id="host" style="width:175px; background:Silver;" />
           Env: <input type="text" value="" name="env" id="env" style="width:300px" />
           <button>Get Tables</button>
         </form>
       </div>
 
       <div id="meat">
-        <ul id="yqlTables"></ul>
+        <div id="yqlTables">
+          <p>Click on a table name to run tests for that table.</p>
+          <ul></ul>
+          <small>Click "Get Tables" above to load the tables for a YQL env</small>
+        </div>
+        <div id="tests"></div>
       </div>
 
     </div>
@@ -29,13 +35,14 @@
 
 <script type="text/javascript" charset="utf-8">
   function getTables(){
-    YQL._env = $('#env').val();
+    YQL._env  = $('#env').val();
+    YQL._host = $('#host').val() || YQL._host;
 
     // Query YQL for all of the tables in the environment, then
     // display them on the page
     YQL.query('use "http://fightinjoe.com/yql_test/yql.scrapeEnv.xml" as t; select * from t where file="'+YQL._env+'"', function(data){
       var tables = data.query.results.table,
-        tablesElt = $('#yqlTables');
+        tablesElt = $('#yqlTables ul');
 
       // if there is only one table, wrap it in an array
       if(!tables.length) tables = [tables];
@@ -45,8 +52,9 @@
         link.click(function(){
           var table = $(this).attr('tableName');
           YQLTests.runTestsForTable(table);
-          uri.anchor += ','+table;
-          document.location = uri.to_s();
+          uri.anchor = uri.anchor.split(','); uri.anchor.push(table); uri.anchor = uri.anchor.join(',');
+          document.location.href = uri.to_s();
+          return false;
         });
         tablesElt.append(link); link.wrap('<li />');
       }
@@ -58,7 +66,9 @@
     // load the tables if there is an ?env present
     uri = new URI(document.location.href); uri.params = uri.queryParams();
     if(uri.params.env) {
-      jQuery('#env').val( uri.params.env );
+      YQL._host = uri.params.host || YQL._host;
+      YQL._env  = uri.params.env;
+      jQuery('#env').val( YQL._env ); jQuery('#host').val( YQL._host );
       getTables();
 
       if(uri.anchor) {

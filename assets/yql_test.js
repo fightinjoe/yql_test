@@ -104,7 +104,7 @@ var YQLTests = {
       html.fail  = jQuery('<ul class="tests fail"></ul>');
       html.container = jQuery('<div class="tests '+self.table+'"><h1>'+self.table+' tests</h1></div>');
       html.count = jQuery('<p class="count"></p>');
-      jQuery('#meat').prepend(html.container);
+      jQuery('#tests').prepend(html.container);
       html.container.append( html.count ).append( html.pass ).append( html.fail );
     }
 

@@ -46,6 +46,24 @@
               'pass for a unique attribute' : 'assertHasAtLeastOne("rel", "out.first_set.elt")',
               'fail otherwise'              : '!assertHasAtLeastOne("foo", "out.first_set")'
             }
+          },
+          {
+            name  : 'Validate data object',
+            query : 'SELECT * FROM {table}',
+            should: {
+              'pass for simple lookup'            : 'data.out.first_set.elt',
+              'fail for missing simple lookup'    : '!data.out.first_set.foo',
+              'pass for simple computation'       : 'data.out.first_set.elt.length == 3")',
+              'fail for wrong simple computation' : 'data.out.first_set.elt.length == 4")'
+            }
+          },
+          {
+            name  : 'Fail and Error examples',
+            query : 'SELECT * FROM {table}',
+            should: {
+              'print a failure' : 'data.out.first_set.elt.length == 4',
+              'print an error'  : 'data.broken.chain'
+            }
           }
         ]};
 
