@@ -150,13 +150,13 @@ ul {
 
 /*== Test ==*/
 
-div.tests {
+div#tests {
   padding:0 0 1em 1em;
   margin-left:300px;
   border-left:1px solid silver;
-  position:relative;
-  left:-1px;
 }
+
+div.tests {padding-bottom:1em;}
 
 .tests.pass {
   overflow:auto;
