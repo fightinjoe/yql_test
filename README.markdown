@@ -4,8 +4,8 @@ YQL Unit Test
 This is a library for writing unit tests for YQL tables.  Tests run in the
 browser using the [Client].  Here is an [example] of tests running.
 
-    [client]:  http://fightinjoe.com/yql_test/test.html
-    [example]: http://fightinjoe.com/yql_test/test.html?env=http%3A%2F%2Ffightinjoe.com%2Fyql_test%2Ftables.env#yql.unit_test_helper
+  [client]:  http://fightinjoe.com/yql_test/test.html
+  [example]: http://fightinjoe.com/yql_test/test.html?env=http%3A%2F%2Ffightinjoe.com%2Fyql_test%2Ftables.env#yql.unit_test_helper
 
 Structure
 ---------
@@ -46,4 +46,4 @@ has access to the 'data' variable as well as several helper methods.
 
 To see examples view the example [yqlUnitTestHelper].
 
-    [yqlUnitTestHelper]: http://fightinjoe.com/yql_test/yql.unitTestHelper.xml
+  [yqlUnitTestHelper]: http://fightinjoe.com/yql_test/yql.unitTestHelper.xml
