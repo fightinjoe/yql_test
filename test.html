@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>YQL: Unit Tests</title>
+    <link rel="stylesheet" href="assets/style.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8" src="assets/uri.js"></script>
+    <script type="text/javascript" charset="utf-8" src="assets/yql.js"></script>
+    <script type="text/javascript" charset="utf-8" src="assets/yql_test.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+  </head>
+  <body>
+    <div id="head">
+      <a href="http://prototype.corp.yahoo.com" id="logo">Yahoo! Prototyping</a>
+      <h1>YQL: Unit Tests</h1>
+    </div>
+    <div id="body" style="overflow:auto;">
+      <div id="top">
+        <form method="GET">
+          Env: <input type="text" value="" name="env" id="env" style="width:300px" />
+          <button>Get Tables</button>
+        </form>
+      </div>
+
+      <div id="meat">
+        <ul id="yqlTables"></ul>
+      </div>
+
+    </div>
+  </body>
+
+<script type="text/javascript" charset="utf-8">
+  function getTables(){
+    YQL._env = $('#env').val();
+
+    // Query YQL for all of the tables in the environment, then
+    // display them on the page
+    YQL.query('use "http://awheeler.yahoohack.com/yql_test/yql.scrapeEnv.xml" as t; select * from t where file="'+YQL._env+'"', function(data){
+      console.log(data);
+      var tables = data.query.results.table,
+        tablesElt = $('#yqlTables');
+
+      // if there is only one table, wrap it in an array
+      if(!tables.length) tables = [tables];
+
+      for(var i=0;i<tables.length;i++) {
+        var link = $('<a href="#" tableName="'+tables[i].content+'">'+ tables[i].content +'</a>');
+        link.click(function(){YQLTests.runTestsForTable($(this).attr('tableName'))});
+        tablesElt.append(link); link.wrap('<li />');
+      }
+    });
+  }
+
+  var uri;
+  jQuery(document).ready(function(){
+    // load the tables if there is an ?env present
+    uri = new URI(document.location.href); uri.params = uri.queryParams();
+    if(uri.params.env) {
+      jQuery('#env').val( uri.params.env );
+      getTables();
+
+      if(uri.anchor) {
+        var anchors = uri.anchor.split(',')
+        for(var anchor in anchors) {
+          anchor = unescape(anchors[anchor]);
+          YQLTests.runTestsForTable(anchor);
+        }
+      }
+    }
+  });
+</script>
+
+</html>

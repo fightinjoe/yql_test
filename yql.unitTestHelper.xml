@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Aaron Wheeler (aaron@fightinjoe.com)</author>
+    <description>Example table for what unit tests look like</description>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <bindings>
+
+    <!--/*
+      Returns the test suite for yql.unitTestHelper
+      select * from yql.unit_test_helper where test="unit"
+    */-->
+    <select produces="JSON" itemPath="result.asserts">
+      <urls><url></url></urls>
+      <inputs><key id="test" type="xs:string" paramType="variable" required="true" /></inputs>
+      <execute><![CDATA[
+        var tests = {asserts: [
+          {
+            name  : 'Validate assertHasElements helper method',
+            query : 'SELECT * FROM {table}',
+            should: {
+              'pass for long chains'   : 'assertHasElements("out.first_set.elt")',
+              'pass for simple chains' : 'assertHasElements("out.second_set")',
+              'pass for attributes'    : 'assertHasElements("out.first_set.elt.alt")',
+              'fail otherwise'         : '!assertHasElements("out.third_set")'
+            }
+          },
+          {
+            name  : 'Validate assertDoesNotHaveElements helper method',
+            query : 'SELECT * FROM {table}',
+            should: {
+              'pass when missing at the end of the chain'  : 'assertDoesNotHaveElements("out.first_set.missing")',
+              'pass when missing in the middle of a chain' : 'assertDoesNotHaveElements("out.third_set.missing")',
+              'pass when missing attributes'               : 'assertDoesNotHaveElements("out.first_set.elt.src")',
+              'fail otherwise'                             : '!assertDoesNotHaveElements("out.second_set")'
+            }
+          },
+          {
+            name  : 'Validate assertHasAtLeastOne helper method',
+            query : 'SELECT * FROM {table}',
+            should: {
+              'pass for a common element'   : 'assertHasAtLeastOne("elt", "out.first_set")',
+              'pass for a unique element'   : 'assertHasAtLeastOne("strong", "out.first_set.elt")',
+              'pass for a common attribute' : 'assertHasAtLeastOne("alt", "out.first_set.elt")',
+              'pass for a unique attribute' : 'assertHasAtLeastOne("rel", "out.first_set.elt")',
+              'fail otherwise'              : '!assertHasAtLeastOne("foo", "out.first_set")'
+            }
+          }
+        ]};
+
+        response.object = tests;
+      ]]></execute>
+    </select>
+
+    <select produces="XML" itemPath="">
+      <urls><url></url></urls>
+      <inputs></inputs>
+
+      <execute><![CDATA[
+        response.object = <out>
+          <first_set>
+            <elt alt="one">Value 1</elt>
+            <elt alt="two"><strong>Value 2</strong></elt>
+            <elt alt="three" rel="true">Value 3</elt>
+          </first_set>
+          <second_set>2nd</second_set>
+        </out>;
+      ]]></execute>
+
+    </select>
+
+  </bindings>
+</table>

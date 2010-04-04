@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Aaron Wheeler (aaron@fightinjoe.com)</author>
+    <description>Scrapes a YQL env file and returns the tables</description>
+    <sampleQuery>select * from {table} where env="http://awheeler.yahoohack.com/yql_test/tables.env"</sampleQuery>
+ </meta>
+  <bindings>
+
+    <!--/* Pulls all of the tables from an env and returns them as nicely formatted XML */-->
+    <select itemPath="tables.table" produces="XML">
+      <urls><url></url></urls>
+
+      <inputs>
+        <key id="file" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+
+      <execute><![CDATA[
+        var yql = "SELECT * FROM html WHERE url=@url",
+            out = <tables />,
+            table;
+
+        var tables = y.query(yql, {url:unescape(file)}).results.body.p.toString().split(/;\n?\s*/m);
+
+        for(var i=0;i<tables.length;i++) {
+          table = tables[i].match(/"([^"]+)"\s*\w*\s*([\w.]+)$/);
+          if(table)
+            out.appendChild(<table href={ table[1] }>{ table[2] }</table>);
+        }
+
+        response.object = out;
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>
