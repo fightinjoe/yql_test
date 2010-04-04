@@ -33,8 +33,7 @@
 
     // Query YQL for all of the tables in the environment, then
     // display them on the page
-    YQL.query('use "http://awheeler.yahoohack.com/yql_test/yql.scrapeEnv.xml" as t; select * from t where file="'+YQL._env+'"', function(data){
-      console.log(data);
+    YQL.query('use "http://fightinjoe.com/yql_test/yql.scrapeEnv.xml" as t; select * from t where file="'+YQL._env+'"', function(data){
       var tables = data.query.results.table,
         tablesElt = $('#yqlTables');
 
@@ -43,7 +42,12 @@
 
       for(var i=0;i<tables.length;i++) {
         var link = $('<a href="#" tableName="'+tables[i].content+'">'+ tables[i].content +'</a>');
-        link.click(function(){YQLTests.runTestsForTable($(this).attr('tableName'))});
+        link.click(function(){
+          var table = $(this).attr('tableName');
+          YQLTests.runTestsForTable(table);
+          uri.anchor += ','+table;
+          document.location = uri.to_s();
+        });
         tablesElt.append(link); link.wrap('<li />');
       }
     });

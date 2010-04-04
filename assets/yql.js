@@ -1,9 +1,7 @@
 var YQL = {
-  _host     : 'http://streaminside.corp.yahoo.com:8080',
-  //_host     : 'http://query.yahooapis.com', //'http://streaminside.corp.yahoo.com:8080',
+  _host     : 'http://query.yahooapis.com',
   _format   : 'json',
-  _env      : 'http://prototype.corp.yahoo.com/yql/tables.env',
-  //_env      : 'store://m57zHeK0Vgrlpeqp9Bfrxz', //'http://prototype.corp.yahoo.com/yql/tables.env',
+  _env      : '',
 
   callbacks : {},
 
